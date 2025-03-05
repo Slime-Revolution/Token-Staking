@@ -1,0 +1,12 @@
+[package]
+name = "slime"
+version = "1.0.0"
+authors = []
+
+[addresses]
+slime = "_"
+deployer = "_"
+
+[dependencies]
+AptosFramework = { local = "../../../framework/aptos-framework" }
+AptosTokenObjects = { local = "../../../framework/aptos-token-objects" }
