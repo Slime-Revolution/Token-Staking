@@ -40,7 +40,7 @@ module slime::test_e2e {
         assert!(coin::balance<TEST>(signer::address_of(user_2)) == 0, 0);
 
         // Withdraw the locked asset.
-        // nft::withdraw_coin_entry<TEST>(user_2, nft_2);
-        // nft::withdraw_fa_entry(user_1, nft_1, token_metadata);
+        nft::withdraw_coin_entry<TEST>(user_2, nft_2);
+        nft::withdraw_fa_entry(user_1, nft_1, token_metadata);
     }
 }

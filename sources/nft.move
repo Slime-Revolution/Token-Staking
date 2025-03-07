@@ -283,9 +283,8 @@ module slime::nft {
         owner: &signer,
         nft_token: Object<SlimeNFT>,
         token: Object<Metadata>,
-        amount: u64
     ) acquires SlimeNFT, SlimeTokenRefs {
-        let amount = withdraw(owner, nft_token, format_fungible_asset(token),amount);
+        let amount = withdraw(owner, nft_token, format_fungible_asset(token));
         primary_fungible_store::deposit(
             signer::address_of(owner),
             withdraw_fa_from_pool(token, amount)
@@ -295,9 +294,8 @@ module slime::nft {
     public entry fun withdraw_coin_entry<T>(
         owner: &signer,
         nft_token: Object<SlimeNFT>,
-        amount: u64
     ) acquires SlimeNFT, SlimeTokenRefs {
-        let amount = withdraw(owner, nft_token, format_coin<T>(), amount);
+        let amount = withdraw(owner, nft_token, format_coin<T>());
         aptos_account::deposit_coins(
             signer::address_of(owner),
             withdraw_coin_from_pool<T>(amount)
@@ -308,14 +306,8 @@ module slime::nft {
         owner: &signer,
         nft_token: Object<SlimeNFT>,
         token: String,
-        amount: u64
     ): u64 acquires SlimeNFT, SlimeTokenRefs {
         assert!(token == locked_tokens(nft_token), EINVALID_TOKEN);
-        if (amount < locked_amount(nft_token)) {
-            let token_data = safe_mut_nft(&nft_token);
-            token_data.locked_amount = token_data.locked_amount - amount;
-            return amount
-        };
         let SlimeNFT { locked_amount, token: _ } =
             owner_only_destruct_token(owner, nft_token);
         event::emit(
